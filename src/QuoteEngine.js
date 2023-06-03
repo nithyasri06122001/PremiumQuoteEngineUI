@@ -8,8 +8,8 @@ const sumInsuredList = [
 const QuoteEngine = () => {
   const [formData, setFormData] = useState({
     productCode: 1,
-    productName: "Women Care",
-    policyType: "",
+    productName: "",
+    policyType: "Individual",
     adultCount: 1,
     childCount: 0,
     starExtraProtect: "No",
@@ -54,9 +54,13 @@ const QuoteEngine = () => {
         <p>Quick Quote</p>
         <div className="product">
           <label>Product:</label>
-          <select value={formData.productName} onChange={handleChange}>
-            <option name="product"> Select Product</option>
-            <option name="product">Women Care</option>
+          <select
+            name="productName"
+            value={formData.productName}
+            onChange={handleChange}
+          >
+            <option value="">Select Product</option>
+            <option value="Women Care">Women Care</option>
           </select>
         </div>
       </div>
@@ -65,11 +69,15 @@ const QuoteEngine = () => {
         <div className="row1">
           <div className="input">
             <label>Policy Type:</label>
-            <select value={formData.productName} onChange={handleChange}>
-              <option type="text" name="policyType">
+            <select
+              name="policyType"
+              value={formData.policyType}
+              onChange={handleChange}
+            >
+              <option type="text" value="Individual">
                 Individual
               </option>
-              <option type="text" name="policyType">
+              <option type="text" value="Floater">
                 Floater
               </option>
             </select>
@@ -102,14 +110,34 @@ const QuoteEngine = () => {
               })}
             </select>
           </div>
+          <div className="input">
+            <label>Payment Method:</label>
+            <select
+              type="text"
+              name="paymentPlan"
+              value={formData.paymentPlan}
+              onChange={handleChange}
+            >
+              <option type="text" value="Full Payment">
+                Full Payment
+              </option>
+              <option type="text" value="Half-Yearly EMI Plan">
+                Half-Yearly EMI Plan
+              </option>
+              <option type="text" value="Quarterly EMI Plan">
+                Quarterly EMI Plan
+              </option>
+            </select>
+          </div>
         </div>
         <div className="premium">
           {premium
             ? Object.keys(premium).map((key) => {
                 return (
-                  <p>
-                    year {key}:{premium[key]}
-                  </p>
+                  <div className="Quote">
+                    <p className="year">{key} year</p>
+                    <p>₹ {premium[key]}</p>
+                  </div>
                 );
               })
             : null}
