@@ -20,9 +20,14 @@ const QuoteEngine = () => {
 
   const [premium, setPremium] = useState(null);
 
+  // const [childCountOption, setChildCountOption] = useState([1, 2, 3]);
+
   const handleChange = (e) => {
-    console.log(e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // if (formData.adultCount === 2) {
+    //   setChildCountOption([0, 1, 2, 3]);
+    //   console.log("yes");
+    // }
   };
 
   const handleSubmit = async (e) => {
@@ -44,9 +49,9 @@ const QuoteEngine = () => {
       });
   };
 
-  useEffect(() => {
-    console.log(premium);
-  }, [premium]);
+  // useEffect(() => {
+  //   console.log(premium);
+  // }, [premium]);
 
   return (
     <div className="QuoteEngine">
@@ -82,6 +87,59 @@ const QuoteEngine = () => {
               </option>
             </select>
           </div>
+
+          {formData.policyType === "Floater" && (
+            <div className="input">
+              <label>No of Adult</label>
+              <select
+                name="adultCount"
+                value={formData.adultCount}
+                onChange={handleChange}
+              >
+                <option type="number" value="1">
+                  1
+                </option>
+                <option type="number" value="2">
+                  2
+                </option>
+              </select>
+            </div>
+          )}
+          {formData.policyType === "Floater" && (
+            <div className="input">
+              <label>No of Child</label>
+              <select
+                name="childCount"
+                value={formData.childCount}
+                onChange={handleChange}
+              >
+                {formData.adultCount > 1 && (
+                  <option type="number" value="0">
+                    0
+                  </option>
+                )}
+
+                <option type="number" value="1">
+                  1
+                </option>
+                <option type="number" value="2">
+                  2
+                </option>
+                <option type="number" value="3">
+                  3
+                </option>
+
+                {/* {childCountOption.map((count) => {
+                  return (
+                    <option type="number" name="childCount">
+                      {count}
+                    </option>
+                  );
+                })} */}
+              </select>
+            </div>
+          )}
+
           <div className="input">
             <label>Age :</label>
             <input
