@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./QuoteEngine.css";
 
-const sumInsuredList = [
+const sumInsuredListProduct1 = [
   500000, 1000000, 1500000, 2000000, 2500000, 5000000, 10000000,
+];
+const sumInsuredListProduct2 = [
+  500000, 750000, 1000000, 1500000, 2000000, 2500000, 5000000, 7500000,
+  10000000,
 ];
 
 const initialFormData = {
-  productCode: 1,
+  productCode: "",
   productName: "",
   policyType: "Individual",
   adultCount: 1,
@@ -21,6 +25,8 @@ const QuoteEngine = () => {
   const [formData, setFormData] = useState(initialFormData);
 
   const [premium, setPremium] = useState(null);
+
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,6 +60,19 @@ const QuoteEngine = () => {
         console.error(error);
       });
   };
+
+  const handleCheck = () => {
+    setIsChecked(!isChecked);
+  };
+
+  useEffect(() => {
+    if (isChecked) {
+      setFormData({ ...formData, starExtraProtect: "Yes" });
+    } else if (!isChecked) {
+      setFormData({ ...formData, starExtraProtect: "No" });
+    }
+  }, [isChecked]);
+
   return (
     <div className="QuoteEngine">
       <div className="head">
@@ -61,12 +80,19 @@ const QuoteEngine = () => {
         <div className="product">
           <label>Product:</label>
           <select
-            name="productName"
-            value={formData.productName}
+            name="productCode"
+            value={formData.productCode}
             onChange={handleChange}
           >
-            <option value="">Select Product</option>
-            <option value="Women Care">Women Care</option>
+            <option value="" selected disabled hidden>
+              Select Product
+            </option>
+            <option type="number" value="1">
+              Women Care
+            </option>
+            <option type="number" value="2">
+              Star Comprehensive
+            </option>
           </select>
         </div>
       </div>
@@ -152,35 +178,71 @@ const QuoteEngine = () => {
               value={formData.sumInsured}
               onChange={handleChange}
             >
-              {sumInsuredList.map((sum) => {
-                return (
-                  <option key={sum} type="number" name="sumInsured">
-                    {sum}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-          <div className="input">
-            <label>Payment Method:</label>
-            <select
-              type="text"
-              name="paymentPlan"
-              value={formData.paymentPlan}
-              onChange={handleChange}
-            >
-              <option type="text" value="Full Payment">
-                Full Payment
-              </option>
-              <option type="text" value="Half-Yearly EMI Plan">
-                Half-Yearly EMI Plan
-              </option>
-              <option type="text" value="Quarterly EMI Plan">
-                Quarterly EMI Plan
-              </option>
+              {formData.productCode === "1" &&
+                sumInsuredListProduct1.map((sum) => {
+                  return (
+                    <option key={sum} type="number" name="sumInsured">
+                      {sum}
+                    </option>
+                  );
+                })}
+              {formData.productCode === "2" &&
+                sumInsuredListProduct2.map((sum) => {
+                  return (
+                    <option key={sum} type="number" name="sumInsured">
+                      {sum}
+                    </option>
+                  );
+                })}
             </select>
           </div>
         </div>
+
+        {formData.productCode === "2" && formData.sumInsured >= 1000000 && (
+          <div>
+            <p>Do you want STAR EXTRA PROTECT ?</p>
+            <div className="flex">
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheck}
+              />
+              <p>SECTION 1</p>
+            </div>
+            <p>1. Enhanced Room Rent</p>
+
+            <p>2. Claim Guard (Consumables cover)</p>
+
+            <p>3. Enhanced Limit for Modern Treatments</p>
+
+            <p>4. Enhanced Limit for Ayush Treatment</p>
+
+            <p>5. Home care treatment</p>
+
+            <p>6. Bonus Guard</p>
+          </div>
+        )}
+
+        <div className="input">
+          <label>Payment Method:</label>
+          <select
+            type="text"
+            name="paymentPlan"
+            value={formData.paymentPlan}
+            onChange={handleChange}
+          >
+            <option type="text" value="Full Payment">
+              Full Payment
+            </option>
+            <option type="text" value="Half-Yearly EMI Plan">
+              Half-Yearly EMI Plan
+            </option>
+            <option type="text" value="Quarterly EMI Plan">
+              Quarterly EMI Plan
+            </option>
+          </select>
+        </div>
+
         <div className="premium">
           {premium
             ? Object.keys(premium).map((key) => {

@@ -46,6 +46,7 @@ select {
 }
 .input {
   margin: 10px 0;
+  flex: 50%;
 }
 .button {
   margin: 10px;
@@ -78,4 +79,8 @@ button {
 .year {
   color: darkgray;
   font-weight: bold;
+}
+.flex {
+  display: flex;
+  flex-direction: row;
 }
