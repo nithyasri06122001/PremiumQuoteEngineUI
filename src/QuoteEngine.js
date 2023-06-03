@@ -9,6 +9,10 @@ const sumInsuredListProduct2 = [
   10000000,
 ];
 
+const sumInsuredListProduct3 = [100000, 200000, 300000, 400000, 500000, 750000];
+
+const sumInsuredListProduct3F = [1000000, 1500000, 2000000, 2500000];
+
 const initialFormData = {
   productCode: "",
   productName: "",
@@ -93,6 +97,9 @@ const QuoteEngine = () => {
             <option type="number" value="2">
               Star Comprehensive
             </option>
+            <option type="number" value="3">
+              Senior Citizen Red Carpet
+            </option>
           </select>
         </div>
       </div>
@@ -117,7 +124,11 @@ const QuoteEngine = () => {
 
           {formData.policyType === "Floater" && (
             <div className="input">
-              <label>No of Adult</label>
+              {formData.productCode !== "3" ? (
+                <label>No of Adult</label>
+              ) : (
+                <label>No of Senior Citizen</label>
+              )}
               <select
                 name="adultCount"
                 value={formData.adultCount}
@@ -132,32 +143,33 @@ const QuoteEngine = () => {
               </select>
             </div>
           )}
-          {formData.policyType === "Floater" && (
-            <div className="input">
-              <label>No of Child</label>
-              <select
-                name="childCount"
-                value={formData.childCount}
-                onChange={handleChange}
-              >
-                {formData.adultCount > 1 && (
-                  <option type="number" value="0">
-                    0
-                  </option>
-                )}
+          {formData.policyType === "Floater" &&
+            formData.productCode !== "3" && (
+              <div className="input">
+                <label>No of Child</label>
+                <select
+                  name="childCount"
+                  value={formData.childCount}
+                  onChange={handleChange}
+                >
+                  {formData.adultCount > 1 && (
+                    <option type="number" value="0">
+                      0
+                    </option>
+                  )}
 
-                <option type="number" value="1">
-                  1
-                </option>
-                <option type="number" value="2">
-                  2
-                </option>
-                <option type="number" value="3">
-                  3
-                </option>
-              </select>
-            </div>
-          )}
+                  <option type="number" value="1">
+                    1
+                  </option>
+                  <option type="number" value="2">
+                    2
+                  </option>
+                  <option type="number" value="3">
+                    3
+                  </option>
+                </select>
+              </div>
+            )}
 
           <div className="input">
             <label>Age :</label>
@@ -188,6 +200,23 @@ const QuoteEngine = () => {
                 })}
               {formData.productCode === "2" &&
                 sumInsuredListProduct2.map((sum) => {
+                  return (
+                    <option key={sum} type="number" name="sumInsured">
+                      {sum}
+                    </option>
+                  );
+                })}
+              {formData.productCode === "3" &&
+                formData.policyType !== "Floater" &&
+                sumInsuredListProduct3.map((sum) => {
+                  return (
+                    <option key={sum} type="number" name="sumInsured">
+                      {sum}
+                    </option>
+                  );
+                })}
+              {formData.productCode === "3" &&
+                sumInsuredListProduct3F.map((sum) => {
                   return (
                     <option key={sum} type="number" name="sumInsured">
                       {sum}
