@@ -1,0 +1,65 @@
+.QuoteEngine {
+  background-color: white;
+  margin: 50px 100px;
+  border-radius: 4px;
+  padding: 10px;
+}
+.head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.product {
+  margin-top: 16px;
+}
+.row1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+.row2 {
+  padding: auto;
+  margin-left: 15px;
+}
+
+.button {
+  display: flex;
+  justify-content: space-around;
+  margin: 25px 0;
+}
+
+label {
+  background-color: blue;
+  color: aliceblue;
+  border-radius: 4px;
+  padding: 10px;
+}
+input {
+  padding: 10px;
+}
+select {
+  padding: 10px;
+  cursor: pointer;
+}
+.input {
+  margin: 10px 0;
+}
+.button {
+  margin: 10px;
+}
+button {
+  background-color: cornflowerblue;
+  border-radius: 10px;
+  border: none;
+  color: aliceblue;
+  padding: 15px;
+  cursor: pointer;
+}
+.premium {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
