@@ -1,28 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./QuoteEngine.css";
 
 const sumInsuredList = [
   500000, 1000000, 1500000, 2000000, 2500000, 5000000, 10000000,
 ];
 
+const initialFormData = {
+  productCode: 1,
+  productName: "",
+  policyType: "Individual",
+  adultCount: 1,
+  childCount: 0,
+  starExtraProtect: "No",
+  sumInsured: "500000",
+  paymentPlan: "Full Payment",
+  age: "",
+};
+
 const QuoteEngine = () => {
-  const [formData, setFormData] = useState({
-    productCode: 1,
-    productName: "",
-    policyType: "Individual",
-    adultCount: 1,
-    childCount: 0,
-    starExtraProtect: "No",
-    sumInsured: "500000",
-    paymentPlan: "Full Payment",
-    age: "",
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   const [premium, setPremium] = useState(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if (formData.policyType === "Individual") {
+      setFormData({
+        ...formData,
+        adultCount: initialFormData.adultCount,
+        childCount: initialFormData.childCount,
+      });
+    }
+  }, [formData.policyType]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -142,7 +154,7 @@ const QuoteEngine = () => {
             >
               {sumInsuredList.map((sum) => {
                 return (
-                  <option type="number" name="sumInsured">
+                  <option key={sum} type="number" name="sumInsured">
                     {sum}
                   </option>
                 );
@@ -173,7 +185,7 @@ const QuoteEngine = () => {
           {premium
             ? Object.keys(premium).map((key) => {
                 return (
-                  <div className="Quote">
+                  <div className="Quote" key={key}>
                     <p className="year">{key} year</p>
                     <p>₹ {premium[key]}</p>
                   </div>
