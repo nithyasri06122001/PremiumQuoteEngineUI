@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./QuoteEngine.css";
 
 const sumInsuredList = [
@@ -20,14 +20,8 @@ const QuoteEngine = () => {
 
   const [premium, setPremium] = useState(null);
 
-  // const [childCountOption, setChildCountOption] = useState([1, 2, 3]);
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // if (formData.adultCount === 2) {
-    //   setChildCountOption([0, 1, 2, 3]);
-    //   console.log("yes");
-    // }
   };
 
   const handleSubmit = async (e) => {
@@ -48,11 +42,6 @@ const QuoteEngine = () => {
         console.error(error);
       });
   };
-
-  // useEffect(() => {
-  //   console.log(premium);
-  // }, [premium]);
-
   return (
     <div className="QuoteEngine">
       <div className="head">
@@ -128,14 +117,6 @@ const QuoteEngine = () => {
                 <option type="number" value="3">
                   3
                 </option>
-
-                {/* {childCountOption.map((count) => {
-                  return (
-                    <option type="number" name="childCount">
-                      {count}
-                    </option>
-                  );
-                })} */}
               </select>
             </div>
           )}
