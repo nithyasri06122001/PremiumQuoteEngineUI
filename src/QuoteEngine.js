@@ -53,7 +53,7 @@ const QuoteEngine = () => {
       <div className="head">
         <p>Quick Quote</p>
         <div className="product">
-          <label>Product:</label>
+          <label>Product</label>
           <select value={formData.productName} onChange={handleChange}>
             <option name="product"> Select Product</option>
             <option name="product">Women Care</option>
@@ -64,7 +64,7 @@ const QuoteEngine = () => {
       <form onSubmit={handleSubmit}>
         <div className="row1">
           <div className="input">
-            <label>Policy Type:</label>
+            <label>Policy Type</label>
             <select value={formData.productName} onChange={handleChange}>
               <option type="text" name="policyType">
                 Individual
@@ -75,7 +75,7 @@ const QuoteEngine = () => {
             </select>
           </div>
           <div className="input">
-            <label>Age :</label>
+            <label>Age </label>
             <input
               type="number"
               required
@@ -85,7 +85,7 @@ const QuoteEngine = () => {
             />
           </div>
           <div className="input">
-            <label>Sum Insured:</label>
+            <label>Sum Insured</label>
             <select
               type="number"
               required
