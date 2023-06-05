@@ -79,9 +79,9 @@ const PremiumQuoteEngine = () => {
   return (
     <div className="container bg-white m-5 border border-2 border-info rounded">
       <div className="row m-3">
-        <p className="col">Quick Quote</p>
-        <div className="col d-flex">
-          <label className="col-3 text-center p-2 bg-primary text-white border border-info rounded">
+        <p className="col-md">Quick Quote</p>
+        <div className="col-md d-flex">
+          <label className="col-md-3 text-center p-2 bg-primary text-white border border-info rounded">
             Product
           </label>
           <select
@@ -108,8 +108,8 @@ const PremiumQuoteEngine = () => {
       <hr className="m-3"></hr>
       <form onSubmit={handleSubmit}>
         <div className="ms-5 ps-3 d-flex flex-wrap gap-4">
-          <div className="d-flex col-5">
-            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
+          <div className="d-flex col-md-5">
+            <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
               Policy Type
             </label>
             <select
@@ -128,13 +128,13 @@ const PremiumQuoteEngine = () => {
           </div>
 
           {formData.policyType === "Floater" && (
-            <div className="col-5 d-flex">
+            <div className="col-md-5 d-flex">
               {formData.productCode !== "3" ? (
-                <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
+                <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
                   No of Adult
                 </label>
               ) : (
-                <label className="col-5 text-center p-2  bg-primary text-white border border-info rounded">
+                <label className="col-md-5 text-center p-2  bg-primary text-white border border-info rounded">
                   No of Senior Citizen
                 </label>
               )}
@@ -158,8 +158,8 @@ const PremiumQuoteEngine = () => {
           )}
           {formData.policyType === "Floater" &&
             formData.productCode !== "3" && (
-              <div className="col-5 d-flex">
-                <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
+              <div className="col-md-5 d-flex">
+                <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
                   No of Child
                 </label>
                 <select
@@ -186,8 +186,8 @@ const PremiumQuoteEngine = () => {
                 </select>
               </div>
             )}
-          <div className="d-flex col-5">
-            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
+          <div className="d-flex col-md-5">
+            <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
               Age
             </label>
             <input
@@ -199,8 +199,8 @@ const PremiumQuoteEngine = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="d-flex col-5">
-            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
+          <div className="d-flex col-md-5">
+            <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
               Sum Insured
             </label>
             <select
@@ -247,7 +247,7 @@ const PremiumQuoteEngine = () => {
             </select>
           </div>
           {formData.productCode === "2" && formData.sumInsured >= 1000000 && (
-            <div className="col-12">
+            <div className="col-md-12">
               <p>Do you want STAR EXTRA PROTECT ?</p>
               <div className="d-flex gap-2">
                 <input
@@ -270,7 +270,7 @@ const PremiumQuoteEngine = () => {
               <p>6. Bonus Guard</p>
             </div>
           )}
-          <div className="col-5 d-flex">
+          <div className="col-md-5 d-flex">
             <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
               Payment Method
             </label>
