@@ -144,9 +144,12 @@ const PremiumQuoteEngine = () => {
                 value={formData.adultCount}
                 onChange={handleChange}
               >
-                <option type="number" value="1">
-                  1
-                </option>
+                {formData.productCode === "3" &&
+                  !formData.policyType === "Floater" && (
+                    <option type="number" value="1">
+                      1
+                    </option>
+                  )}
                 <option type="number" value="2">
                   2
                 </option>
