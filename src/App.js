@@ -1,6 +1,5 @@
 import "./App.css";
 import PremiumQuoteEngine from "./PremiumQuoteEngine";
-import QuoteEngine from "./QuoteEngine";
 
 function App() {
   return (
