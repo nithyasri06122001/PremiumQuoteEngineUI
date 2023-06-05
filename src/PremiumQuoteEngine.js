@@ -35,32 +35,17 @@ const PremiumQuoteEngine = () => {
 
   const [isOptionalChecked, setIsOptionalChecked] = useState(false);
 
-  const [optionalSumInsured, setoptionalSumInsured] = useState([]);
+  const [optionalSumInsured, setoptionalSumInsured] = useState([500000]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   useEffect(() => {
-    if (formData.productCode === "1") {
-      setoptionalSumInsured([]);
-      for (let i = 0; sumInsuredListProduct1[i] <= formData.sumInsured; i++) {
-        if (
-          formData.sumInsured ===
-          optionalSumInsured[optionalSumInsured.length - 1]
-        ) {
-          break;
-        } else if (
-          sumInsuredListProduct1[i] !== 5000000 &&
-          sumInsuredListProduct1[i] !== 10000000
-        ) {
-          setoptionalSumInsured([
-            ...optionalSumInsured,
-            sumInsuredListProduct1[i],
-          ]);
-        }
-      }
-      console.log(optionalSumInsured);
-    }
+    let optionalSum = sumInsuredListProduct1.filter((item) => {
+      return item <= formData.sumInsured && item < 5000000;
+    });
+    setoptionalSumInsured(optionalSum);
+    console.log(optionalSum);
   }, [formData.sumInsured, isOptionalChecked]);
 
   useEffect(() => {
@@ -336,11 +321,7 @@ const PremiumQuoteEngine = () => {
                 onChange={handleChange}
               >
                 {optionalSumInsured.map((sum) => {
-                  return (
-                    <option key={sum} type="number" name="optionalSumInsured">
-                      {sum}
-                    </option>
-                  );
+                  return <option value={sum}>{sum}</option>;
                 })}
               </select>
             </div>
