@@ -84,7 +84,6 @@ const QuoteEngine = () => {
         <div className="product">
           <label style={{ display: "block", width: "130px" }}>Product:</label>
           <select
-            style={{ marginTop: "14px" }}
             name="productCode"
             value={formData.productCode}
             onChange={handleChange}
