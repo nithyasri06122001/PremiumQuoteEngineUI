@@ -77,7 +77,7 @@ const PremiumQuoteEngine = () => {
   }, [isChecked]);
 
   return (
-    <div className="container bg-white m-5 border border-info rounded">
+    <div className="container bg-white m-5 border border-2 border-info rounded">
       <div className="row m-3">
         <p className="col">Quick Quote</p>
         <div className="col d-flex">
@@ -188,7 +188,7 @@ const PremiumQuoteEngine = () => {
               Age
             </label>
             <input
-              className="w-100 "
+              className="w-100 border  rounded"
               type="number"
               require
               name="age"
@@ -246,13 +246,13 @@ const PremiumQuoteEngine = () => {
           {formData.productCode === "2" && formData.sumInsured >= 1000000 && (
             <div className="col-12">
               <p>Do you want STAR EXTRA PROTECT ?</p>
-              <div className="flex">
+              <div className="d-flex gap-2">
                 <input
                   type="checkbox"
                   checked={isChecked}
                   onChange={handleCheck}
                 />
-                <p>SECTION 1</p>
+                <p className="mt-3">SECTION 1</p>
               </div>
               <p>1. Enhanced Room Rent</p>
 
@@ -306,7 +306,7 @@ const PremiumQuoteEngine = () => {
             : null}
         </div>
         <div className="m-3 text-center">
-          <button className="btn btn-primary" type="submit">
+          <button className="btn btn-primary pe-3 ps-3" type="submit">
             Get Quote
           </button>
         </div>
