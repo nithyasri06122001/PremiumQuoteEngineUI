@@ -12,6 +12,10 @@
 }
 .product {
   display: flex;
+<<<<<<< HEAD
+=======
+  flex-direction: row;
+>>>>>>> 525b5d810619659563f288f7ef51fe2432fe318c
 }
 .row1 {
   display: flex;

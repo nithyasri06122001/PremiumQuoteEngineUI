@@ -82,10 +82,17 @@ const QuoteEngine = () => {
     <div className="col QuoteEngine bg-white">
       <div className="col-12 d-flex justify-content-between">
         <p>Quick Quote</p>
+<<<<<<< HEAD
         <div className="d-flex">
           <label>Product</label>
           <select
             className="form-select"
+=======
+        <div className="product">
+          <label style={{ display: "block", width: "130px" }}>Product:</label>
+          <select
+            style={{ marginTop: "14px" }}
+>>>>>>> 525b5d810619659563f288f7ef51fe2432fe318c
             name="productCode"
             value={formData.productCode}
             onChange={handleChange}
