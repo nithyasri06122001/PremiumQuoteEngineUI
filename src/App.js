@@ -3,7 +3,7 @@ import PremiumQuoteEngine from "./PremiumQuoteEngine";
 
 function App() {
   return (
-    <div className="App d-flex justify-content-center">
+    <div className="container App d-flex justify-content-center">
       <PremiumQuoteEngine />
     </div>
   );

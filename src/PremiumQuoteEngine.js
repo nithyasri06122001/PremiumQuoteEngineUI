@@ -22,6 +22,8 @@ const initialFormData = {
   sumInsured: "500000",
   paymentPlan: "Full Payment",
   age: "",
+  optionalCover: "No",
+  optionalSumInsured: "500000",
 };
 
 const PremiumQuoteEngine = () => {
@@ -31,9 +33,35 @@ const PremiumQuoteEngine = () => {
 
   const [isChecked, setIsChecked] = useState(false);
 
+  const [isOptionalChecked, setIsOptionalChecked] = useState(false);
+
+  const [optionalSumInsured, setoptionalSumInsured] = useState([]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  useEffect(() => {
+    if (formData.productCode === "1") {
+      setoptionalSumInsured([]);
+      for (let i = 0; sumInsuredListProduct1[i] <= formData.sumInsured; i++) {
+        if (
+          formData.sumInsured ===
+          optionalSumInsured[optionalSumInsured.length - 1]
+        ) {
+          break;
+        } else if (
+          sumInsuredListProduct1[i] !== 5000000 &&
+          sumInsuredListProduct1[i] !== 10000000
+        ) {
+          setoptionalSumInsured([
+            ...optionalSumInsured,
+            sumInsuredListProduct1[i],
+          ]);
+        }
+      }
+      console.log(optionalSumInsured);
+    }
+  }, [formData.sumInsured, isOptionalChecked]);
 
   useEffect(() => {
     if (formData.policyType === "Individual") {
@@ -67,6 +95,16 @@ const PremiumQuoteEngine = () => {
   const handleCheck = () => {
     setIsChecked(!isChecked);
   };
+  const handleOptionalCheck = () => {
+    setIsOptionalChecked(!isOptionalChecked);
+  };
+  useEffect(() => {
+    if (isOptionalChecked) {
+      setFormData({ ...formData, optionalCover: "Yes" });
+    } else if (!isOptionalChecked) {
+      setFormData({ ...formData, optionalCover: "No" });
+    }
+  }, [isOptionalChecked]);
 
   useEffect(() => {
     if (isChecked) {
@@ -77,10 +115,10 @@ const PremiumQuoteEngine = () => {
   }, [isChecked]);
 
   return (
-    <div className="container bg-white m-5 border border-2 border-info rounded">
+    <div className="shadow  bg-warning bg-gradient m-md-5 border rounded d-block w-100">
       <div className="row m-3">
         <p className="col-md">Quick Quote</p>
-        <div className="col-md d-flex">
+        <div className="col-lg d-flex">
           <label className="col-md-3 text-center p-2 bg-primary text-white border border-info rounded">
             Product
           </label>
@@ -107,9 +145,9 @@ const PremiumQuoteEngine = () => {
       </div>
       <hr className="m-3"></hr>
       <form onSubmit={handleSubmit}>
-        <div className="ms-5 ps-3 d-flex flex-wrap gap-4">
-          <div className="d-flex col-md-5">
-            <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
+        <div className="ms-5 ps-md-3 d-flex flex-wrap flex-fill gap-4">
+          <div className="d-flex col-lg-5">
+            <label className="col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Policy Type
             </label>
             <select
@@ -128,13 +166,13 @@ const PremiumQuoteEngine = () => {
           </div>
 
           {formData.policyType === "Floater" && (
-            <div className="col-md-5 d-flex">
+            <div className="col-lg-5 d-flex">
               {formData.productCode !== "3" ? (
-                <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
+                <label className="col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
                   No of Adult
                 </label>
               ) : (
-                <label className="col-md-5 text-center p-2  bg-primary text-white border border-info rounded">
+                <label className="col-md-5 text-center p-md-2  bg-primary text-white border border-info rounded">
                   No of Senior Citizen
                 </label>
               )}
@@ -158,8 +196,8 @@ const PremiumQuoteEngine = () => {
           )}
           {formData.policyType === "Floater" &&
             formData.productCode !== "3" && (
-              <div className="col-md-5 d-flex">
-                <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
+              <div className="col-lg-5 d-flex">
+                <label className="col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
                   No of Child
                 </label>
                 <select
@@ -187,7 +225,7 @@ const PremiumQuoteEngine = () => {
               </div>
             )}
           <div className="d-flex col-md-5">
-            <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
+            <label className="col-lg-5 text-center p-2 bg-primary text-white border border-info rounded">
               Age
             </label>
             <input
@@ -200,7 +238,7 @@ const PremiumQuoteEngine = () => {
             />
           </div>
           <div className="d-flex col-md-5">
-            <label className="col-md-5 text-center p-2 bg-primary text-white border border-info rounded">
+            <label className="col-lg-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Sum Insured
             </label>
             <select
@@ -247,7 +285,7 @@ const PremiumQuoteEngine = () => {
             </select>
           </div>
           {formData.productCode === "2" && formData.sumInsured >= 1000000 && (
-            <div className="col-md-12">
+            <div className="col-lg-12">
               <p>Do you want STAR EXTRA PROTECT ?</p>
               <div className="d-flex gap-2">
                 <input
@@ -270,8 +308,46 @@ const PremiumQuoteEngine = () => {
               <p>6. Bonus Guard</p>
             </div>
           )}
+          {formData.productCode === "1" && (
+            <div className="col-md-12">
+              <div className="d-flex gap-2">
+                <input
+                  type="checkbox"
+                  checked={isOptionalChecked}
+                  onChange={handleOptionalCheck}
+                />
+
+                <p className="mt-3">
+                  Do you want optional cover? - Lump sum on diagnosis of cancer
+                </p>
+              </div>
+            </div>
+          )}
+          {isOptionalChecked && formData.productCode === "1" && (
+            <div className="col-md-5 d-flex">
+              <label className="col-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+                Lumpsum cover
+              </label>
+              <select
+                className="form-select"
+                type="text"
+                name="paymentPlan"
+                value={formData.paymentPlan}
+                onChange={handleChange}
+              >
+                {optionalSumInsured.map((sum) => {
+                  return (
+                    <option key={sum} type="number" name="optionalSumInsured">
+                      {sum}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          )}
+
           <div className="col-md-5 d-flex">
-            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
+            <label className="col-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Payment Method
             </label>
             <select
