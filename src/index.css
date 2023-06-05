@@ -1,5 +1,9 @@
 body {
-  background-color: rgb(193, 230, 230);
+  background-image: linear-gradient(
+    to right,
+    rgb(84, 197, 135),
+    rgb(154, 190, 224)
+  );
   margin: 0;
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
