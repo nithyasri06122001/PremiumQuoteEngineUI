@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import bootstrap from "bootstrap";
 
 const sumInsuredListProduct1 = [
   500000, 1000000, 1500000, 2000000, 2500000, 5000000, 10000000,
@@ -295,9 +294,12 @@ const PremiumQuoteEngine = () => {
           {premium
             ? Object.keys(premium).map((key) => {
                 return (
-                  <div className="Quote" key={key}>
-                    <p className="year">{key} year</p>
-                    <p>₹ {premium[key]}</p>
+                  <div className="mt-5" key={key}>
+                    <p className="text-secondary">{key} YEAR</p>
+
+                    <p className="border border-3 border-primary rounded p-2 text-center">
+                      ₹ {premium[key]}
+                    </p>
                   </div>
                 );
               })
