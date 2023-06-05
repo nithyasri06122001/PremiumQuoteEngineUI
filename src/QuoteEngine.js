@@ -107,7 +107,7 @@ const QuoteEngine = () => {
       <form onSubmit={handleSubmit}>
         <div className="row1">
           <div className="input">
-            <label>Policy Type:</label>
+            <label>Policy Type</label>
             <select
               name="policyType"
               value={formData.policyType}
@@ -172,7 +172,7 @@ const QuoteEngine = () => {
             )}
 
           <div className="input">
-            <label>Age :</label>
+            <label>Age </label>
             <input
               type="number"
               required
@@ -182,7 +182,7 @@ const QuoteEngine = () => {
             />
           </div>
           <div className="input">
-            <label>Sum Insured:</label>
+            <label>Sum Insured</label>
             <select
               type="number"
               required
@@ -253,7 +253,7 @@ const QuoteEngine = () => {
         )}
 
         <div className="input">
-          <label>Payment Method:</label>
+          <label>Payment Method</label>
           <select
             type="text"
             name="paymentPlan"
