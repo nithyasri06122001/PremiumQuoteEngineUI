@@ -81,7 +81,7 @@ const PremiumQuoteEngine = () => {
       <div className="row m-3">
         <p className="col">Quick Quote</p>
         <div className="col d-flex">
-          <label className="col-3 text-center p-2 bg-info border border-info rounded">
+          <label className="col-3 text-center p-2 bg-primary text-white border border-info rounded">
             Product
           </label>
           <select
@@ -109,7 +109,7 @@ const PremiumQuoteEngine = () => {
       <form onSubmit={handleSubmit}>
         <div className="ms-5 ps-3 d-flex flex-wrap gap-4">
           <div className="d-flex col-5">
-            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
               Policy Type
             </label>
             <select
@@ -130,11 +130,11 @@ const PremiumQuoteEngine = () => {
           {formData.policyType === "Floater" && (
             <div className="col-5 d-flex">
               {formData.productCode !== "3" ? (
-                <label className="col-5 text-center p-2 bg-info border border-info rounded">
+                <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
                   No of Adult
                 </label>
               ) : (
-                <label className="col-5 text-center p-2 bg-info border border-info rounded">
+                <label className="col-5 text-center p-2  bg-primary text-white border border-info rounded">
                   No of Senior Citizen
                 </label>
               )}
@@ -159,7 +159,7 @@ const PremiumQuoteEngine = () => {
           {formData.policyType === "Floater" &&
             formData.productCode !== "3" && (
               <div className="col-5 d-flex">
-                <label className="col-5 text-center p-2 bg-info border border-info rounded">
+                <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
                   No of Child
                 </label>
                 <select
@@ -187,7 +187,7 @@ const PremiumQuoteEngine = () => {
               </div>
             )}
           <div className="d-flex col-5">
-            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
               Age
             </label>
             <input
@@ -200,7 +200,7 @@ const PremiumQuoteEngine = () => {
             />
           </div>
           <div className="d-flex col-5">
-            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
               Sum Insured
             </label>
             <select
@@ -271,7 +271,7 @@ const PremiumQuoteEngine = () => {
             </div>
           )}
           <div className="col-5 d-flex">
-            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+            <label className="col-5 text-center p-2 bg-primary text-white border border-info rounded">
               Payment Method
             </label>
             <select
