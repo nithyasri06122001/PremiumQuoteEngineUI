@@ -26,7 +26,7 @@ const initialFormData = {
   age: "",
 };
 
-const QuoteEngine = () => {
+const PremiumQuoteEngine = () => {
   const [formData, setFormData] = useState(initialFormData);
 
   const [premium, setPremium] = useState(null);
@@ -79,13 +79,15 @@ const QuoteEngine = () => {
   }, [isChecked]);
 
   return (
-    <div className="col QuoteEngine bg-white">
-      <div className="col-12 d-flex justify-content-between">
-        <p>Quick Quote</p>
-        <div className="d-flex">
-          <label>Product</label>
+    <div className="container bg-white m-5 border border-info rounded">
+      <div className="row m-3">
+        <p className="col">Quick Quote</p>
+        <div className="col d-flex">
+          <label className="col-3 text-center p-2 bg-info border border-info rounded">
+            Product
+          </label>
           <select
-            className="form-select"
+            className="form-select "
             name="productCode"
             value={formData.productCode}
             onChange={handleChange}
@@ -105,92 +107,101 @@ const QuoteEngine = () => {
           </select>
         </div>
       </div>
-      <hr></hr>
+      <hr className="m-3"></hr>
       <form onSubmit={handleSubmit}>
-        <div className="col">
-          <div className="col-12 d-flex  justify-content-around">
-            <div className="d-flex input product">
-              <label>Policy Type</label>
+        <div className="ms-5 ps-3 d-flex flex-wrap gap-4">
+          <div className="d-flex col-5">
+            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+              Policy Type
+            </label>
+            <select
+              className="form-select"
+              name="policyType"
+              value={formData.policyType}
+              onChange={handleChange}
+            >
+              <option type="text" value="Individual">
+                Individual
+              </option>
+              <option type="text" value="Floater">
+                Floater
+              </option>
+            </select>
+          </div>
+
+          {formData.policyType === "Floater" && (
+            <div className="col-5 d-flex">
+              {formData.productCode !== "3" ? (
+                <label className="col-5 text-center p-2 bg-info border border-info rounded">
+                  No of Adult
+                </label>
+              ) : (
+                <label className="col-5 text-center p-2 bg-info border border-info rounded">
+                  No of Senior Citizen
+                </label>
+              )}
               <select
-                className="form-select "
-                name="policyType"
-                value={formData.policyType}
+                className="form-select"
+                name="adultCount"
+                value={formData.adultCount}
                 onChange={handleChange}
               >
-                <option type="text" value="Individual">
-                  Individual
+                <option type="number" value="1">
+                  1
                 </option>
-                <option type="text" value="Floater">
-                  Floater
+                <option type="number" value="2">
+                  2
                 </option>
               </select>
             </div>
-
-            {formData.policyType === "Floater" && (
-              <div className="input product">
-                {formData.productCode !== "3" ? (
-                  <label>No of Adult</label>
-                ) : (
-                  <label>No of Senior Citizen</label>
-                )}
+          )}
+          {formData.policyType === "Floater" &&
+            formData.productCode !== "3" && (
+              <div className="col-5 d-flex">
+                <label className="col-5 text-center p-2 bg-info border border-info rounded">
+                  No of Child
+                </label>
                 <select
                   className="form-select"
-                  name="adultCount"
-                  value={formData.adultCount}
+                  name="childCount"
+                  value={formData.childCount}
                   onChange={handleChange}
                 >
+                  {formData.adultCount > 1 && (
+                    <option type="number" value="0">
+                      0
+                    </option>
+                  )}
+
                   <option type="number" value="1">
                     1
                   </option>
                   <option type="number" value="2">
                     2
                   </option>
+                  <option type="number" value="3">
+                    3
+                  </option>
                 </select>
               </div>
             )}
-          </div>
-          <div className="col-6">
-            {formData.policyType === "Floater" &&
-              formData.productCode !== "3" && (
-                <div className="input product">
-                  <label>No of Child</label>
-                  <select
-                    className="form-select"
-                    name="childCount"
-                    value={formData.childCount}
-                    onChange={handleChange}
-                  >
-                    {formData.adultCount > 1 && (
-                      <option type="number" value="0">
-                        0
-                      </option>
-                    )}
-
-                    <option type="number" value="1">
-                      1
-                    </option>
-                    <option type="number" value="2">
-                      2
-                    </option>
-                    <option type="number" value="3">
-                      3
-                    </option>
-                  </select>
-                </div>
-              )}
-          </div>
-          <div className="input">
-            <label>Age </label>
+          <div className="d-flex col-5">
+            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+              Age
+            </label>
             <input
+              className="w-100 "
               type="number"
-              required
+              require
               name="age"
               value={formData.age}
               onChange={handleChange}
             />
           </div>
-          <div className="input product">
-            <label>Sum Insured</label>
+          <div className="d-flex col-5">
+            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+              Sum Insured
+            </label>
             <select
               className="form-select"
               type="number"
@@ -234,55 +245,54 @@ const QuoteEngine = () => {
                 })}
             </select>
           </div>
-        </div>
+          {formData.productCode === "2" && formData.sumInsured >= 1000000 && (
+            <div className="col-12">
+              <p>Do you want STAR EXTRA PROTECT ?</p>
+              <div className="flex">
+                <input
+                  type="checkbox"
+                  checked={isChecked}
+                  onChange={handleCheck}
+                />
+                <p>SECTION 1</p>
+              </div>
+              <p>1. Enhanced Room Rent</p>
 
-        {formData.productCode === "2" && formData.sumInsured >= 1000000 && (
-          <div>
-            <p>Do you want STAR EXTRA PROTECT ?</p>
-            <div className="flex">
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={handleCheck}
-              />
-              <p>SECTION 1</p>
+              <p>2. Claim Guard (Consumables cover)</p>
+
+              <p>3. Enhanced Limit for Modern Treatments</p>
+
+              <p>4. Enhanced Limit for Ayush Treatment</p>
+
+              <p>5. Home care treatment</p>
+
+              <p>6. Bonus Guard</p>
             </div>
-            <p>1. Enhanced Room Rent</p>
-
-            <p>2. Claim Guard (Consumables cover)</p>
-
-            <p>3. Enhanced Limit for Modern Treatments</p>
-
-            <p>4. Enhanced Limit for Ayush Treatment</p>
-
-            <p>5. Home care treatment</p>
-
-            <p>6. Bonus Guard</p>
+          )}
+          <div className="col-5 d-flex">
+            <label className="col-5 text-center p-2 bg-info border border-info rounded">
+              Payment Method
+            </label>
+            <select
+              className="form-select"
+              type="text"
+              name="paymentPlan"
+              value={formData.paymentPlan}
+              onChange={handleChange}
+            >
+              <option type="text" value="Full Payment">
+                Full Payment
+              </option>
+              <option type="text" value="Half-Yearly EMI Plan">
+                Half-Yearly EMI Plan
+              </option>
+              <option type="text" value="Quarterly EMI Plan">
+                Quarterly EMI Plan
+              </option>
+            </select>
           </div>
-        )}
-
-        <div className="input product">
-          <label>Payment Method</label>
-          <select
-            className="form-select form-select-sm mb-3"
-            type="text"
-            name="paymentPlan"
-            value={formData.paymentPlan}
-            onChange={handleChange}
-          >
-            <option type="text" value="Full Payment">
-              Full Payment
-            </option>
-            <option type="text" value="Half-Yearly EMI Plan">
-              Half-Yearly EMI Plan
-            </option>
-            <option type="text" value="Quarterly EMI Plan">
-              Quarterly EMI Plan
-            </option>
-          </select>
         </div>
-
-        <div className="premium">
+        <div className="d-flex w-80 text-center justify-content-around">
           {premium
             ? Object.keys(premium).map((key) => {
                 return (
@@ -294,13 +304,14 @@ const QuoteEngine = () => {
               })
             : null}
         </div>
-
-        <div className="button">
-          <button type="submit">Get Quote</button>
+        <div className="m-3 text-center">
+          <button className="btn btn-primary" type="submit">
+            Get Quote
+          </button>
         </div>
       </form>
     </div>
   );
 };
 
-export default QuoteEngine;
+export default PremiumQuoteEngine;
