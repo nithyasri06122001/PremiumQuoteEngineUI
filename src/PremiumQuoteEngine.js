@@ -100,7 +100,7 @@ const PremiumQuoteEngine = () => {
   }, [isChecked]);
 
   return (
-    <div className="shadow  bg-warning bg-gradient m-md-5 border rounded d-block w-100">
+    <div className="shadow  bg-light bg-gradient m-md-5 border rounded d-block w-100">
       <div className="row m-3">
         <p className="col-md">Quick Quote</p>
         <div className="col-lg d-flex">
@@ -216,7 +216,7 @@ const PremiumQuoteEngine = () => {
             <input
               className="w-100 border  rounded"
               type="number"
-              require
+              required
               name="age"
               value={formData.age}
               onChange={handleChange}
