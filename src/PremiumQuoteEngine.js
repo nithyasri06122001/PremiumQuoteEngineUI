@@ -12,6 +12,11 @@ const sumInsuredListProduct3 = [100000, 200000, 300000, 400000, 500000, 750000];
 
 const sumInsuredListProduct3F = [1000000, 1500000, 2000000, 2500000];
 
+const sumInsuredListProduct5 = [1000, 2000, 3000];
+
+const hospitalPolicyDaysBasic = [30, 60, 90, 120, 180];
+const hospitalPolicyDaysEnhanced = [90, 120, 180];
+
 const initialFormData = {
   productCode: "",
   productName: "",
@@ -19,11 +24,13 @@ const initialFormData = {
   adultCount: 1,
   childCount: 0,
   starExtraProtect: "No",
-  sumInsured: "500000",
+  sumInsured: "",
   paymentPlan: "Full Payment",
   age: "",
   optionalCover: "No",
   optionalSumInsured: "500000",
+  policyPlan: "",
+  policyDays: "",
 };
 
 const PremiumQuoteEngine = () => {
@@ -36,6 +43,20 @@ const PremiumQuoteEngine = () => {
   const [isOptionalChecked, setIsOptionalChecked] = useState(false);
 
   const [optionalSumInsuredList, setoptionalSumInsuredList] = useState([]);
+
+  const [minAge, setMinAge] = useState(1);
+
+  const [maxAge, setMaxAge] = useState(100);
+
+  useEffect(() => {
+    if (formData.productCode === 3) {
+      setMaxAge(75);
+      setMinAge(60);
+    } else {
+      setMaxAge(100);
+      setMinAge(1);
+    }
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -99,6 +120,10 @@ const PremiumQuoteEngine = () => {
     }
   }, [isChecked]);
 
+  useEffect(() => {
+    setFormData(initialFormData);
+  }, []);
+
   return (
     <div className="shadow  bg-light bg-gradient m-md-5 border rounded d-block w-100">
       <div className="row m-3">
@@ -124,6 +149,12 @@ const PremiumQuoteEngine = () => {
             </option>
             <option type="number" value="3">
               Senior Citizen Red Carpet
+            </option>
+            <option type="number" value="4">
+              Star Micro Rural and Farmers Care
+            </option>
+            <option type="number" value="5">
+              Star Hospital Cash
             </option>
           </select>
         </div>
@@ -167,6 +198,9 @@ const PremiumQuoteEngine = () => {
                 value={formData.adultCount}
                 onChange={handleChange}
               >
+                <option type="number" value="">
+                  {" "}
+                </option>
                 {!(
                   formData.productCode === "3" &&
                   formData.policyType === "Floater"
@@ -215,17 +249,74 @@ const PremiumQuoteEngine = () => {
             <label className="text-nowrap col-lg-5 text-center p-2 bg-primary text-white border border-info rounded">
               Age
             </label>
+
             <input
               className="w-100 border  rounded"
               type="number"
-              min={1}
-              max={100}
+              min={minAge}
+              max={maxAge}
               required
               name="age"
               value={formData.age}
               onChange={handleChange}
             />
           </div>
+
+          {formData.productCode === "5" && (
+            <div className="d-flex col-md-5">
+              <label className="text-nowrap col-lg-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+                Policy Plan
+              </label>
+              <select
+                className="form-select "
+                name="policyPlan"
+                value={formData.policyPlan}
+                onChange={handleChange}
+              >
+                <option value="" selected disabled hidden>
+                  Select Plan
+                </option>
+                <option type="text" value="Basic Plan">
+                  Basic Plan
+                </option>
+                <option type="text" value="Enhanced Plan">
+                  Enhanced Plan
+                </option>
+              </select>
+            </div>
+          )}
+
+          {formData.productCode === "5" && (
+            <div className="d-flex col-lg-5">
+              <label className="text-nowrap col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+                Policy Days
+              </label>
+              <select
+                className="form-select"
+                name="policyDays"
+                value={formData.policyDays}
+                onChange={handleChange}
+              >
+                {formData.policyPlan === "Basic Plan" &&
+                  hospitalPolicyDaysBasic.map((sum) => {
+                    return (
+                      <option key={sum} type="number" name="policyDays">
+                        {sum}
+                      </option>
+                    );
+                  })}
+                {formData.policyPlan === "Enhanced Plan" &&
+                  hospitalPolicyDaysEnhanced.map((sum) => {
+                    return (
+                      <option key={sum} type="number" name="policyDays">
+                        {sum}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+          )}
+
           <div className="d-flex col-md-5">
             <label className="text-nowrap col-lg-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Sum Insured
@@ -238,6 +329,7 @@ const PremiumQuoteEngine = () => {
               value={formData.sumInsured}
               onChange={handleChange}
             >
+              <option value={" "}> </option>
               {formData.productCode === "1" &&
                 sumInsuredListProduct1.map((sum) => {
                   return (
@@ -265,6 +357,22 @@ const PremiumQuoteEngine = () => {
                 })}
               {formData.productCode === "3" &&
                 sumInsuredListProduct3F.map((sum) => {
+                  return (
+                    <option key={sum} type="number" name="sumInsured">
+                      {sum}
+                    </option>
+                  );
+                })}
+              {formData.productCode === "4" &&
+                formData.policyType === "Individual" && (
+                  <option value={100000}>100000</option>
+                )}
+              {formData.productCode === "4" &&
+                formData.policyType === "Floater" && (
+                  <option value={200000}>200000</option>
+                )}
+              {formData.productCode === "5" &&
+                sumInsuredListProduct5.map((sum) => {
                   return (
                     <option key={sum} type="number" name="sumInsured">
                       {sum}
@@ -362,7 +470,11 @@ const PremiumQuoteEngine = () => {
             ? Object.keys(premium).map((key) => {
                 return (
                   <div className="mt-5" key={key}>
-                    <p className="text-secondary">{key} YEAR</p>
+                    {formData.productCode === "4" ? (
+                      <p className="text-secondary">Premium</p>
+                    ) : (
+                      <p className="text-secondary">{key} YEAR</p>
+                    )}
 
                     <p className="border border-3 border-primary rounded p-2 text-center">
                       ₹ {premium[key]}
