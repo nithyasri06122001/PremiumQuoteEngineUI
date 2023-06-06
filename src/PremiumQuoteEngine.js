@@ -35,7 +35,7 @@ const PremiumQuoteEngine = () => {
 
   const [isOptionalChecked, setIsOptionalChecked] = useState(false);
 
-  const [optionalSumInsured, setoptionalSumInsured] = useState([500000]);
+  const [optionalSumInsuredList, setoptionalSumInsuredList] = useState([]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,7 +44,7 @@ const PremiumQuoteEngine = () => {
     let optionalSum = sumInsuredListProduct1.filter((item) => {
       return item <= formData.sumInsured && item < 5000000;
     });
-    setoptionalSumInsured(optionalSum);
+    setoptionalSumInsuredList(optionalSum);
     console.log(optionalSum);
   }, [formData.sumInsured, isOptionalChecked]);
 
@@ -104,7 +104,7 @@ const PremiumQuoteEngine = () => {
       <div className="row m-3">
         <p className="col-md">Quick Quote</p>
         <div className="col-lg d-flex">
-          <label className="col-md-3 text-center p-2 bg-primary text-white border border-info rounded">
+          <label className="text-nowrap col-md-3 text-center p-2 bg-primary text-white border border-info rounded">
             Product
           </label>
           <select
@@ -132,7 +132,7 @@ const PremiumQuoteEngine = () => {
       <form onSubmit={handleSubmit}>
         <div className="ms-5 ps-md-3 d-flex flex-wrap flex-fill gap-4">
           <div className="d-flex col-lg-5">
-            <label className="col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+            <label className="text-nowrap col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Policy Type
             </label>
             <select
@@ -153,11 +153,11 @@ const PremiumQuoteEngine = () => {
           {formData.policyType === "Floater" && (
             <div className="col-lg-5 d-flex">
               {formData.productCode !== "3" ? (
-                <label className="col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+                <label className="text-nowrap col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
                   No of Adult
                 </label>
               ) : (
-                <label className="col-md-5 text-center p-md-2  bg-primary text-white border border-info rounded">
+                <label className="text-nowrap text-nowrap col-md-5 text-center p-md-2  bg-primary text-white border border-info rounded">
                   No of Senior Citizen
                 </label>
               )}
@@ -167,12 +167,14 @@ const PremiumQuoteEngine = () => {
                 value={formData.adultCount}
                 onChange={handleChange}
               >
-                {formData.productCode === "3" &&
-                  !formData.policyType === "Floater" && (
-                    <option type="number" value="1">
-                      1
-                    </option>
-                  )}
+                {!(
+                  formData.productCode === "3" &&
+                  formData.policyType === "Floater"
+                ) && (
+                  <option type="number" value="1">
+                    1
+                  </option>
+                )}
                 <option type="number" value="2">
                   2
                 </option>
@@ -182,7 +184,7 @@ const PremiumQuoteEngine = () => {
           {formData.policyType === "Floater" &&
             formData.productCode !== "3" && (
               <div className="col-lg-5 d-flex">
-                <label className="col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+                <label className="text-nowrap col-md-5 text-center p-md-2 bg-primary text-white border border-info rounded">
                   No of Child
                 </label>
                 <select
@@ -210,20 +212,22 @@ const PremiumQuoteEngine = () => {
               </div>
             )}
           <div className="d-flex col-md-5">
-            <label className="col-lg-5 text-center p-2 bg-primary text-white border border-info rounded">
+            <label className="text-nowrap col-lg-5 text-center p-2 bg-primary text-white border border-info rounded">
               Age
             </label>
             <input
               className="w-100 border  rounded"
               type="number"
-              require
+              min={1}
+              max={100}
+              required
               name="age"
               value={formData.age}
               onChange={handleChange}
             />
           </div>
           <div className="d-flex col-md-5">
-            <label className="col-lg-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+            <label className="text-nowrap col-lg-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Sum Insured
             </label>
             <select
@@ -310,25 +314,28 @@ const PremiumQuoteEngine = () => {
           )}
           {isOptionalChecked && formData.productCode === "1" && (
             <div className="col-md-5 d-flex">
-              <label className="col-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+              <label className="text-nowrap col-5 text-center p-md-2 bg-primary text-white border border-info rounded">
                 Lumpsum cover
               </label>
               <select
                 className="form-select"
                 type="text"
-                name="paymentPlan"
-                value={formData.paymentPlan}
+                name="optionalSumInsured"
+                value={formData.optionalSumInsured}
                 onChange={handleChange}
               >
-                {optionalSumInsured.map((sum) => {
-                  return <option value={sum}>{sum}</option>;
-                })}
+                {formData.optionalCover === "Yes" &&
+                  optionalSumInsuredList.map((optionalsum) => {
+                    return (
+                      <option name="optionalSumInsured">{optionalsum}</option>
+                    );
+                  })}
               </select>
             </div>
           )}
 
           <div className="col-md-5 d-flex">
-            <label className="col-5 text-center p-md-2 bg-primary text-white border border-info rounded">
+            <label className="text-nowrap col-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Payment Method
             </label>
             <select
