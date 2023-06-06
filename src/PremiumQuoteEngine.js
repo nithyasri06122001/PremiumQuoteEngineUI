@@ -297,6 +297,7 @@ const PremiumQuoteEngine = () => {
                 value={formData.policyDays}
                 onChange={handleChange}
               >
+                <option value=" "> </option>
                 {formData.policyPlan === "Basic Plan" &&
                   hospitalPolicyDaysBasic.map((sum) => {
                     return (
