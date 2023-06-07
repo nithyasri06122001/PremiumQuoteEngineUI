@@ -30,7 +30,7 @@ const initialFormData = {
   paymentPlan: "Full Payment",
   age: "",
   optionalCover: "No",
-  optionalSumInsured: "500000",
+  optionalSumInsured: "",
   policyPlan: "",
   policyDays: "",
 };
@@ -124,6 +124,13 @@ const PremiumQuoteEngine = () => {
     if (!(formData.sumInsured > 0)) {
       return toast.error("Enter valid Sum Insured");
     }
+    if (
+      isOptionalChecked &&
+      formData.optionalSumInsured === "" &&
+      formData.productCode === "1"
+    ) {
+      return toast.error("Select Lumpsum cover");
+    }
     await fetch("http://139.59.95.35:8081/premium", {
       method: "POST",
       headers: {
@@ -170,6 +177,32 @@ const PremiumQuoteEngine = () => {
     setPremium(null);
     setFormData({ ...formData, age: "", sumInsured: "" });
   }, [formData.productCode]);
+
+  useEffect(() => {
+    if (formData.productCode === "1") {
+      setFormData({ ...formData, optionalSumInsured: "" });
+    }
+  }, [formData.sumInsured]);
+  useEffect(() => {
+    if (formData.productCode === "2" && formData.policyType === "Individual") {
+      setFormData({
+        ...formData,
+        sumInsured: "",
+        adultCount: 1,
+        childCount: "",
+      });
+    }
+    if (
+      formData.productCode === "2" &&
+      formData.policyType === "Floater" &&
+      formData.adultCount === 1
+    ) {
+      setFormData({
+        ...formData,
+        childCount: "1",
+      });
+    }
+  }, [formData.policyType]);
 
   return (
     <div className="shadow  bg-light bg-gradient m-md-5 border rounded d-block w-100">
@@ -245,8 +278,8 @@ const PremiumQuoteEngine = () => {
                 value={formData.adultCount}
                 onChange={handleChange}
               >
-                <option type="number" value="">
-                  {" "}
+                <option value="" selected disabled hidden>
+                  Select Adult Count
                 </option>
                 {!(
                   formData.productCode === "3" &&
@@ -274,9 +307,10 @@ const PremiumQuoteEngine = () => {
                   value={formData.childCount}
                   onChange={handleChange}
                 >
-                  <option type="number" value="">
-                    {" "}
+                  <option value="" selected disabled hidden>
+                    Select Child Count
                   </option>
+
                   {formData.adultCount > 1 && (
                     <option type="number" value="0">
                       0
@@ -289,9 +323,11 @@ const PremiumQuoteEngine = () => {
                   <option type="number" value="2">
                     2
                   </option>
-                  <option type="number" value="3">
-                    3
-                  </option>
+                  {formData.productCode !== "4" && (
+                    <option type="number" value="3">
+                      3
+                    </option>
+                  )}
                 </select>
               </div>
             )}
@@ -308,6 +344,7 @@ const PremiumQuoteEngine = () => {
               name="age"
               value={formData.age}
               onChange={handleChange}
+              placeholder="Enter Age"
             />
           </div>
 
@@ -386,12 +423,14 @@ const PremiumQuoteEngine = () => {
               <select
                 className="form-select"
                 type="number"
-                required
                 name="sumInsured"
                 value={formData.sumInsured}
                 onChange={handleChange}
               >
-                <option value={" "}> </option>
+                <option value="" selected disabled hidden>
+                  Select Sum Insured
+                </option>
+                {/* <option value={" "}> </option> */}
                 {formData.productCode === "1" &&
                   sumInsuredListProduct1.map((sum) => {
                     return (
@@ -495,6 +534,10 @@ const PremiumQuoteEngine = () => {
                 value={formData.optionalSumInsured}
                 onChange={handleChange}
               >
+                <option value="" selected disabled hidden>
+                  Select Lumpsum Cover
+                </option>
+                {/* <option value=""> </option> */}
                 {formData.optionalCover === "Yes" &&
                   optionalSumInsuredList.map((optionalsum) => {
                     return (
