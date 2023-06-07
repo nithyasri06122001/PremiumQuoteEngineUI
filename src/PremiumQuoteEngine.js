@@ -122,7 +122,7 @@ const PremiumQuoteEngine = () => {
     if (!(formData.sumInsured > 0)) {
       return toast.error("Enter valid Sum Insured");
     }
-    await fetch("http://139.59.95.35:8082/premium", {
+    await fetch("http://localhost:8081/premium", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -550,7 +550,7 @@ const PremiumQuoteEngine = () => {
         <ToastContainer
           autoClose={2000}
           closeOnClick
-          position="bottom-center"
+          position="bottom-right"
           theme="colored"
         />
       </form>
