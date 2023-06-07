@@ -46,6 +46,9 @@ const PremiumQuoteEngine = () => {
 
   const [optionalSumInsuredList, setoptionalSumInsuredList] = useState([]);
 
+  const [errorClass, setErrorClass] = useState("secondary-light");
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -86,18 +89,7 @@ const PremiumQuoteEngine = () => {
     // ) {
     //   return toast.error("Enter a valid No of senior count");
     // }
-    if (
-      (formData.productCode === "1" || formData.productCode === "4") &&
-      (formData.age < 18 || formData.age > 100)
-    ) {
-      return toast.error("Age must be in between 18 to 100");
-    }
-    if (
-      (formData.productCode === "2" || formData.productCode === "5") &&
-      (formData.age < 1 || formData.age > 100)
-    ) {
-      return toast.error("Invalid Age Entered");
-    }
+
     if (formData.productCode === "5") {
       if (formData.policyPlan === "") {
         return toast.error("Select your plan type");
@@ -106,12 +98,7 @@ const PremiumQuoteEngine = () => {
         return toast.error("Select policy days");
       }
     }
-    if (
-      formData.productCode === "3" &&
-      (formData.age < 60 || formData.age > 75)
-    ) {
-      return toast.error("Age must be in between 60 to 75");
-    }
+
     if (!(formData.sumInsured > 0)) {
       return toast.error("Enter valid Sum Insured");
     }
@@ -167,6 +154,8 @@ const PremiumQuoteEngine = () => {
   useEffect(() => {
     setPremium(null);
     setFormData({ ...formData, age: "", sumInsured: "" });
+    setErrorClass("secondary-light");
+    setErrorMessage(null);
   }, [formData.productCode]);
 
   useEffect(() => {
@@ -202,6 +191,34 @@ const PremiumQuoteEngine = () => {
   useEffect(() => {
     setFormData({ ...formData, policyDays: "" });
   }, [formData.policyPlan]);
+
+  const validateAge = (e) => {
+    if (e.target.value === "") {
+      setErrorClass("danger");
+      setErrorMessage("Age is mandatory");
+    } else if (
+      (formData.productCode === "1" || formData.productCode === "4") &&
+      (formData.age < 18 || formData.age > 100)
+    ) {
+      setErrorMessage("Age must be in between 18 to 100");
+      setErrorClass("danger");
+    } else if (
+      (formData.productCode === "2" || formData.productCode === "5") &&
+      (formData.age < 1 || formData.age > 100)
+    ) {
+      setErrorMessage("Invalid age");
+      setErrorClass("danger");
+    } else if (
+      formData.productCode === "3" &&
+      (formData.age < 60 || formData.age > 75)
+    ) {
+      setErrorMessage("Age must be in between 60 to 75");
+      setErrorClass("danger");
+    } else {
+      setErrorClass("secondary-light");
+      setErrorMessage(null);
+    }
+  };
   return (
     <div className="shadow  bg-light bg-gradient m-md-5 border rounded d-block w-100">
       <div className="row m-3">
@@ -326,19 +343,28 @@ const PremiumQuoteEngine = () => {
                 </select>
               </div>
             )}
-          <div className="d-flex col-md-5">
-            <label className="text-nowrap col-lg-5 text-center p-2 bg-primary text-white border border-info rounded">
+
+          <div className="d-flex col-md-5 position-relative">
+            <label className="text-nowrap  col-lg-5 text-center p-2 bg-primary text-white border border-info rounded">
               Age
             </label>
 
             <input
-              className="w-100 border  rounded"
+              className={`w-100 border border-${errorClass} rounded`}
               type="number"
               name="age"
               value={formData.age}
               onChange={handleChange}
               placeholder="Enter Age"
+              onBlur={validateAge}
             />
+            {errorClass === "danger" && (
+              <p
+                className={`position-absolute bottom- top-100 text-${errorClass}`}
+              >
+                {errorMessage}
+              </p>
+            )}
           </div>
 
           {formData.productCode === "5" && (
