@@ -82,6 +82,11 @@ const PremiumQuoteEngine = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+
+    if (!(formData.sumInsured > 0)) {
+      return window.alert("Enter valid sumInsured");
+    }
+
     await fetch("http://localhost:8081/premium", {
       method: "POST",
       headers: {
