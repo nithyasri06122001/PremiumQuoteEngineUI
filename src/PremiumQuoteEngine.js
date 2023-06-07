@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const sumInsuredListProduct1 = [
   500000, 1000000, 1500000, 2000000, 2500000, 5000000, 10000000,
@@ -57,7 +59,6 @@ const PremiumQuoteEngine = () => {
       setMinAge(1);
     }
   });
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -66,7 +67,6 @@ const PremiumQuoteEngine = () => {
       return item <= formData.sumInsured && item < 5000000;
     });
     setoptionalSumInsuredList(optionalSum);
-    console.log(optionalSum);
   }, [formData.sumInsured, isOptionalChecked]);
 
   useEffect(() => {
@@ -81,12 +81,47 @@ const PremiumQuoteEngine = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-
-    if (!(formData.sumInsured > 0)) {
-      return window.alert("Enter valid sumInsured");
+    if (formData.productCode === "") {
+      return toast.error("Select any product");
     }
-    await fetch("http://139.59.95.35:8080/premium", {
+
+    if (
+      formData.productCode === "3" &&
+      formData.policyType === "Floater" &&
+      formData.adultCount !== "2"
+    ) {
+      return toast.error("Enter a valid No of senior count");
+    }
+    if (
+      (formData.productCode === "1" || formData.productCode === "4") &&
+      (formData.age < 18 || formData.age > 100)
+    ) {
+      return toast.error("Age must be in between 18 to 100");
+    }
+    if (
+      (formData.productCode === "2" || formData.productCode === "5") &&
+      (formData.age < 1 || formData.age > 100)
+    ) {
+      return toast.error("Invalid Age Entered");
+    }
+    if (formData.productCode === "5") {
+      if (formData.policyPlan === "") {
+        return toast.error("Select your plan type");
+      }
+      if (formData.policyDays === "") {
+        return toast.error("Select policy days");
+      }
+    }
+    if (
+      formData.productCode === "3" &&
+      (formData.age < 60 || formData.age > 75)
+    ) {
+      return toast.error("Age must be in between 60 to 75");
+    }
+    if (!(formData.sumInsured > 0)) {
+      return toast.error("Enter valid Sum Insured");
+    }
+    await fetch("http://139.59.95.35:8082/premium", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,6 +133,7 @@ const PremiumQuoteEngine = () => {
         setPremium(data);
       })
       .catch((error) => {
+        return window.alert("Invalid Details");
         console.error(error);
       });
   };
@@ -259,7 +295,6 @@ const PremiumQuoteEngine = () => {
               type="number"
               min={minAge}
               max={maxAge}
-              required
               name="age"
               value={formData.age}
               onChange={handleChange}
@@ -274,7 +309,6 @@ const PremiumQuoteEngine = () => {
               <select
                 className="form-select "
                 name="policyPlan"
-                required
                 value={formData.policyPlan}
                 onChange={handleChange}
               >
@@ -496,6 +530,12 @@ const PremiumQuoteEngine = () => {
             Get Quote
           </button>
         </div>
+        <ToastContainer
+          autoClose={2000}
+          closeOnClick
+          position="bottom-center"
+          theme="colored"
+        />
       </form>
     </div>
   );
