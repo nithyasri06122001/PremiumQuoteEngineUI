@@ -122,7 +122,7 @@ const PremiumQuoteEngine = () => {
     if (!(formData.sumInsured > 0)) {
       return toast.error("Enter valid Sum Insured");
     }
-    await fetch("http://localhost:8081/premium", {
+    await fetch("http://139.59.95.35:8081/premium", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
