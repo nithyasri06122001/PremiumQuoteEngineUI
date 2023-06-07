@@ -82,7 +82,7 @@ const PremiumQuoteEngine = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    await fetch("http://localhost:8081/premium", {
+    await fetch("http://139.59.95.35:8080/premium", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -270,6 +270,7 @@ const PremiumQuoteEngine = () => {
               <select
                 className="form-select "
                 name="policyPlan"
+                required
                 value={formData.policyPlan}
                 onChange={handleChange}
               >
@@ -294,6 +295,7 @@ const PremiumQuoteEngine = () => {
               <select
                 className="form-select"
                 name="policyDays"
+                required
                 value={formData.policyDays}
                 onChange={handleChange}
               >
