@@ -81,6 +81,7 @@ const PremiumQuoteEngine = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formData.productCode === "") {
       return toast.error("Select any product");
     }
@@ -133,8 +134,7 @@ const PremiumQuoteEngine = () => {
         setPremium(data);
       })
       .catch((error) => {
-        return window.alert("Invalid Details");
-        console.error(error);
+        console.log(error);
       });
   };
 
@@ -163,6 +163,11 @@ const PremiumQuoteEngine = () => {
   useEffect(() => {
     setFormData(initialFormData);
   }, []);
+
+  useEffect(() => {
+    setPremium(null);
+    setFormData({ ...formData, age: "", sumInsured: "" });
+  }, [formData.productCode]);
 
   return (
     <div className="shadow  bg-light bg-gradient m-md-5 border rounded d-block w-100">
@@ -362,65 +367,77 @@ const PremiumQuoteEngine = () => {
             <label className="text-nowrap col-lg-5 text-center p-md-2 bg-primary text-white border border-info rounded">
               Sum Insured
             </label>
-            <select
-              className="form-select"
-              type="number"
-              required
-              name="sumInsured"
-              value={formData.sumInsured}
-              onChange={handleChange}
-            >
-              <option value={" "}> </option>
-              {formData.productCode === "1" &&
-                sumInsuredListProduct1.map((sum) => {
-                  return (
-                    <option key={sum} type="number" name="sumInsured">
-                      {sum}
-                    </option>
-                  );
-                })}
-              {formData.productCode === "2" &&
-                sumInsuredListProduct2.map((sum) => {
-                  return (
-                    <option key={sum} type="number" name="sumInsured">
-                      {sum}
-                    </option>
-                  );
-                })}
-              {formData.productCode === "3" &&
-                formData.policyType !== "Floater" &&
-                sumInsuredListProduct3.map((sum) => {
-                  return (
-                    <option key={sum} type="number" name="sumInsured">
-                      {sum}
-                    </option>
-                  );
-                })}
-              {formData.productCode === "3" &&
-                sumInsuredListProduct3F.map((sum) => {
-                  return (
-                    <option key={sum} type="number" name="sumInsured">
-                      {sum}
-                    </option>
-                  );
-                })}
-              {formData.productCode === "4" &&
-                formData.policyType === "Individual" && (
-                  <option value={100000}>100000</option>
-                )}
-              {formData.productCode === "4" &&
-                formData.policyType === "Floater" && (
-                  <option value={200000}>200000</option>
-                )}
-              {formData.productCode === "5" &&
-                sumInsuredListProduct5.map((sum) => {
-                  return (
-                    <option key={sum} type="number" name="sumInsured">
-                      {sum}
-                    </option>
-                  );
-                })}
-            </select>
+            {formData.productCode === "" ? (
+              <select
+                disabled
+                className="form-select"
+                type="number"
+                required
+                name="sumInsured"
+                value={formData.sumInsured}
+                onChange={handleChange}
+              ></select>
+            ) : (
+              <select
+                className="form-select"
+                type="number"
+                required
+                name="sumInsured"
+                value={formData.sumInsured}
+                onChange={handleChange}
+              >
+                <option value={" "}> </option>
+                {formData.productCode === "1" &&
+                  sumInsuredListProduct1.map((sum) => {
+                    return (
+                      <option key={sum} type="number" name="sumInsured">
+                        {sum}
+                      </option>
+                    );
+                  })}
+                {formData.productCode === "2" &&
+                  sumInsuredListProduct2.map((sum) => {
+                    return (
+                      <option key={sum} type="number" name="sumInsured">
+                        {sum}
+                      </option>
+                    );
+                  })}
+                {formData.productCode === "3" &&
+                  formData.policyType !== "Floater" &&
+                  sumInsuredListProduct3.map((sum) => {
+                    return (
+                      <option key={sum} type="number" name="sumInsured">
+                        {sum}
+                      </option>
+                    );
+                  })}
+                {formData.productCode === "3" &&
+                  sumInsuredListProduct3F.map((sum) => {
+                    return (
+                      <option key={sum} type="number" name="sumInsured">
+                        {sum}
+                      </option>
+                    );
+                  })}
+                {formData.productCode === "4" &&
+                  formData.policyType === "Individual" && (
+                    <option value={100000}>100000</option>
+                  )}
+                {formData.productCode === "4" &&
+                  formData.policyType === "Floater" && (
+                    <option value={200000}>200000</option>
+                  )}
+                {formData.productCode === "5" &&
+                  sumInsuredListProduct5.map((sum) => {
+                    return (
+                      <option key={sum} type="number" name="sumInsured">
+                        {sum}
+                      </option>
+                    );
+                  })}
+              </select>
+            )}
           </div>
           {formData.productCode === "2" && formData.sumInsured >= 1000000 && (
             <div className="col-lg-12">
