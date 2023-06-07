@@ -46,19 +46,6 @@ const PremiumQuoteEngine = () => {
 
   const [optionalSumInsuredList, setoptionalSumInsuredList] = useState([]);
 
-  const [minAge, setMinAge] = useState(1);
-
-  const [maxAge, setMaxAge] = useState(100);
-
-  useEffect(() => {
-    if (formData.productCode === 3) {
-      setMaxAge(75);
-      setMinAge(60);
-    } else {
-      setMaxAge(100);
-      setMinAge(1);
-    }
-  });
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -85,16 +72,20 @@ const PremiumQuoteEngine = () => {
     if (formData.productCode === "") {
       return toast.error("Select any product");
     }
-    if (formData.policyType === "Floater" && formData.childCount === "") {
+    if (
+      formData.policyType === "Floater" &&
+      formData.childCount === "" &&
+      formData.productCode != "3"
+    ) {
       return toast.error("Select child count");
     }
-    if (
-      formData.productCode === "3" &&
-      formData.policyType === "Floater" &&
-      formData.adultCount !== "2"
-    ) {
-      return toast.error("Enter a valid No of senior count");
-    }
+    // if (
+    //   formData.productCode === "3" &&
+    //   formData.policyType === "Floater" &&
+    //   formData.adultCount !== "2"
+    // ) {
+    //   return toast.error("Enter a valid No of senior count");
+    // }
     if (
       (formData.productCode === "1" || formData.productCode === "4") &&
       (formData.age < 18 || formData.age > 100)
@@ -184,7 +175,7 @@ const PremiumQuoteEngine = () => {
     }
   }, [formData.sumInsured]);
   useEffect(() => {
-    if (formData.productCode === "2" && formData.policyType === "Individual") {
+    if (formData.policyType === "Individual") {
       setFormData({
         ...formData,
         sumInsured: "",
@@ -192,18 +183,25 @@ const PremiumQuoteEngine = () => {
         childCount: "",
       });
     }
-    if (
-      formData.productCode === "2" &&
-      formData.policyType === "Floater" &&
-      formData.adultCount === 1
-    ) {
+
+    if (formData.productCode === "3" && formData.policyType === "Floater") {
       setFormData({
         ...formData,
-        childCount: "1",
+        adultCount: 2,
+        sumInsured: "",
+      });
+    }
+    if (formData.policyType === "Floater") {
+      setFormData({
+        ...formData,
+        sumInsured: "",
       });
     }
   }, [formData.policyType]);
 
+  useEffect(() => {
+    setFormData({ ...formData, policyDays: "" });
+  }, [formData.policyPlan]);
   return (
     <div className="shadow  bg-light bg-gradient m-md-5 border rounded d-block w-100">
       <div className="row m-3">
@@ -278,9 +276,6 @@ const PremiumQuoteEngine = () => {
                 value={formData.adultCount}
                 onChange={handleChange}
               >
-                <option value="" selected disabled hidden>
-                  Select Adult Count
-                </option>
                 {!(
                   formData.productCode === "3" &&
                   formData.policyType === "Floater"
@@ -339,8 +334,6 @@ const PremiumQuoteEngine = () => {
             <input
               className="w-100 border  rounded"
               type="number"
-              min={minAge}
-              max={maxAge}
               name="age"
               value={formData.age}
               onChange={handleChange}
@@ -380,11 +373,12 @@ const PremiumQuoteEngine = () => {
               <select
                 className="form-select"
                 name="policyDays"
-                required
                 value={formData.policyDays}
                 onChange={handleChange}
               >
-                <option value=" "> </option>
+                <option value="" selected disabled hidden>
+                  Select Policy Days
+                </option>
                 {formData.policyPlan === "Basic Plan" &&
                   hospitalPolicyDaysBasic.map((sum) => {
                     return (
