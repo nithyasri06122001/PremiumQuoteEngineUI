@@ -272,6 +272,9 @@ const PremiumQuoteEngine = () => {
                   value={formData.childCount}
                   onChange={handleChange}
                 >
+                  <option type="number" value="">
+                    {" "}
+                  </option>
                   {formData.adultCount > 1 && (
                     <option type="number" value="0">
                       0
