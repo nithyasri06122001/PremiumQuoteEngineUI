@@ -24,7 +24,7 @@ const initialFormData = {
   productName: "",
   policyType: "Individual",
   adultCount: 1,
-  childCount: 0,
+  childCount: "",
   starExtraProtect: "No",
   sumInsured: "",
   paymentPlan: "Full Payment",
@@ -85,7 +85,9 @@ const PremiumQuoteEngine = () => {
     if (formData.productCode === "") {
       return toast.error("Select any product");
     }
-
+    if (formData.policyType === "Floater" && formData.childCount === "") {
+      return toast.error("Select child count");
+    }
     if (
       formData.productCode === "3" &&
       formData.policyType === "Floater" &&
