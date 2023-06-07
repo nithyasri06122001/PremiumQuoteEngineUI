@@ -148,11 +148,9 @@ const PremiumQuoteEngine = () => {
   }, [isChecked]);
 
   useEffect(() => {
-    setFormData(initialFormData);
-  }, []);
-
-  useEffect(() => {
     setPremium(null);
+  }, [formData]);
+  useEffect(() => {
     setFormData({ ...formData, age: "", sumInsured: "" });
     setErrorClass("secondary-light");
     setErrorMessage(null);
