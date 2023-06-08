@@ -75,6 +75,9 @@ const PremiumQuoteEngine = () => {
     if (formData.productCode === "") {
       return toast.error("Select any product");
     }
+    if (formData.age === "") {
+      return toast.error("Enter age");
+    }
     if (
       formData.policyType === "Floater" &&
       formData.childCount === "" &&
@@ -135,7 +138,7 @@ const PremiumQuoteEngine = () => {
     if (isOptionalChecked) {
       setFormData({ ...formData, optionalCover: "Yes" });
     } else if (!isOptionalChecked) {
-      setFormData({ ...formData, optionalCover: "No" });
+      setFormData({ ...formData, optionalCover: "No", optionalSumInsured: "" });
     }
   }, [isOptionalChecked]);
 
@@ -153,7 +156,13 @@ const PremiumQuoteEngine = () => {
 
   useEffect(() => {
     setPremium(null);
-    setFormData({ ...formData, age: "", sumInsured: "" });
+    setFormData({
+      ...formData,
+      age: "",
+      sumInsured: "",
+      childCount: "",
+      policyType: "Individual",
+    });
     setErrorClass("secondary-light");
     setErrorMessage(null);
   }, [formData.productCode]);
@@ -161,6 +170,13 @@ const PremiumQuoteEngine = () => {
   useEffect(() => {
     if (formData.productCode === "1") {
       setFormData({ ...formData, optionalSumInsured: "" });
+    }
+
+    if (formData.productCode === "3" && formData.policyType === "Floater") {
+      setFormData({
+        ...formData,
+        adultCount: 2,
+      });
     }
   }, [formData.sumInsured]);
   useEffect(() => {
@@ -170,14 +186,6 @@ const PremiumQuoteEngine = () => {
         sumInsured: "",
         adultCount: 1,
         childCount: "",
-      });
-    }
-
-    if (formData.productCode === "3" && formData.policyType === "Floater") {
-      setFormData({
-        ...formData,
-        adultCount: 2,
-        sumInsured: "",
       });
     }
     if (formData.policyType === "Floater") {
@@ -360,7 +368,7 @@ const PremiumQuoteEngine = () => {
             />
             {errorClass === "danger" && (
               <p
-                className={`position-absolute bottom- top-100 text-${errorClass}`}
+                className={`position-absolute text-nowrap top-100 text-${errorClass}`}
               >
                 {errorMessage}
               </p>
