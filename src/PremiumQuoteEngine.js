@@ -223,6 +223,9 @@ const PremiumQuoteEngine = () => {
       setErrorMessage(null);
     }
   };
+  useEffect(() => {
+    setPremium(null);
+  }, [formData]);
   return (
     <div className="shadow  bg-light bg-gradient m-md-5 border rounded d-block w-100">
       <div className="row m-3">
