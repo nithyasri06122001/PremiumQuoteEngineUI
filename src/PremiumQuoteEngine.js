@@ -151,10 +151,6 @@ const PremiumQuoteEngine = () => {
   }, [isChecked]);
 
   useEffect(() => {
-    setFormData(initialFormData);
-  }, []);
-
-  useEffect(() => {
     setPremium(null);
     setFormData({
       ...formData,
