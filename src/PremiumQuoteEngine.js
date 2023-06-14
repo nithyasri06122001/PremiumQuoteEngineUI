@@ -81,7 +81,7 @@ const PremiumQuoteEngine = () => {
     if (
       formData.policyType === "Floater" &&
       formData.childCount === "" &&
-      formData.productCode !== "3"
+      formData.productCode != "3"
     ) {
       return toast.error("Select child count");
     }
